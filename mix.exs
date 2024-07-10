@@ -24,7 +24,9 @@ defmodule ExFinix.MixProject do
       {:tesla, "~> 1.9"},
       {:hackney, "~> 1.20"},
       {:jason, "~> 1.4"},
-      {:poison, "~> 6.0"}
+      {:poison, "~> 6.0"},
+      {:ecto, "~> 3.10"},
+      {:ecto_enum, "~> 1.4"}
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
     ]

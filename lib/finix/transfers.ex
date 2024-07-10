@@ -6,8 +6,6 @@ defmodule Finix.Transfers do
 
   See Finix Transfers API Documentation: https://finix.com/docs/api/tag/Transfers/
   """
-  alias Finix.Client
-
   @transfers_url "/transfers"
 
   defmodule Transfer do
@@ -50,20 +48,7 @@ defmodule Finix.Transfers do
       body: body,
       url: @transfers_url
     }
-    |> Client.request(client_opts)
-    |> Client.handle_response(%Finix.Transfers.Transfer{
-      _links: %Finix.Links{
-        self: %Finix.Links.Link{},
-        verifications: %Finix.Links.Link{},
-        merchants: %Finix.Links.Link{},
-        settlements: %Finix.Links.Link{},
-        authorizations: %Finix.Links.Link{},
-        transfers: %Finix.Links.Link{},
-        payment_instruments: %Finix.Links.Link{},
-        associated_identities: %Finix.Links.Link{},
-        disputes: %Finix.Links.Link{},
-        application: %Finix.Links.Link{}
-      }
-    })
+    |> Finix.request(client_opts)
+    |> Finix.handle_response(Finix.Transfers.Transfer)
   end
 end

@@ -17,6 +17,7 @@ defmodule Finix.Client do
          {"Accept", "application/json"},
          {"Finix-Version", get_api_version(opts)}
        ]},
+      Tesla.Middleware.PathParams,
       {Tesla.Middleware.JSON,
        engine: Poison,
        decode_content_types: ["application/vnd.finix.1.0.0+json", "application/hal+json"]}
@@ -27,59 +28,7 @@ defmodule Finix.Client do
     Tesla.client(middleware, adapter)
   end
 
-  @spec request(req_params(), client_opts()) :: struct() | {:error, term()}
-  def request(params, client_opts \\ %{}) do
-    url = Map.get(params, :url, "")
-    method = Map.get(params, :method, :get)
-    body = Map.get(params, :body, %{})
-
-    req_params = [url: url, method: method, body: body]
-
-    Tesla.request(new(client_opts), req_params)
-  end
-
-  @spec handle_response({:ok, Tesla.Env.t()} | {:error, %Tesla.Error{}}, struct()) :: struct()
-  def handle_response({:ok, %Tesla.Env{status: status, body: body}}, mapper)
-      when status in 200..299 do
-    convert_to_struct(body, mapper)
-  end
-
-  def handle_response({:ok, %Tesla.Env{status: status, body: body}}, _mapper)
-      when status >= 400 do
-    Poison.Decode.transform(
-      body,
-      %{
-        as: %Finix.Error{
-          _embedded: %Finix.Error.Embedded{
-            errors: [
-              %Finix.Error.Error{
-                logref: %Finix.Error.Logref{},
-                _links: %Finix.Error.Links{
-                  source: %Finix.Error.Links.Source{}
-                }
-              }
-            ]
-          }
-        }
-      }
-    )
-  end
-
-  def handle_response({:error, _reason} = error, _mapper) do
-    error
-  end
-
   # -------------- Private Functions --------------
-  defp convert_to_struct(body, mapper) when is_map(body) do
-    Poison.Decode.transform(body, %{as: mapper})
-  end
-
-  defp convert_to_struct(body, mapper) when is_list(body) do
-    for elem <- body do
-      Poison.Decode.transform(elem, %{as: mapper})
-    end
-  end
-
   defp get_adapter(config) do
     adapter = Map.get(config, :adapter)
 
