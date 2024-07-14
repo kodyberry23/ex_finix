@@ -16,7 +16,7 @@ defmodule Finix do
   def request(params, client_opts \\ %{}) do
     url = Map.get(params, :url, "")
     method = Map.get(params, :method, :get)
-    body = Map.get(params, :body, %{})
+    body = Map.get(params, :body)
     opts = Map.get(params, :opts, [])
 
     req_params = [url: url, method: method, body: body, opts: opts]
@@ -31,7 +31,7 @@ defmodule Finix do
 
   def handle_response({:ok, %Tesla.Env{status: status, body: body}}, _mapper)
       when status >= 400 do
-
+    IO.inspect(body)
     val = Map.merge(body, %{"status" => status})
 
     map_response(val, Errors)

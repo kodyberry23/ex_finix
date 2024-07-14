@@ -2,18 +2,18 @@ defmodule Finix.Errors do
   use Finix.Schema
 
   embedded_schema do
-    field :status, :integer
-    field :total, :integer
+    field(:status, :integer)
+    field(:total, :integer)
 
     embeds_one :_embedded, Embedded, primary_key: false do
       embeds_many :errors, Error, primary_key: false do
-        field :code, Finix.Enums.ErrorCode
-        field :message, :string
-        field :logref, :string
+        field(:code, Finix.Enums.ErrorCode)
+        field(:message, :string)
+        field(:logref, :string)
 
         embeds_one :_links, Links, primary_key: false do
           embeds_one :source, Source, primary_key: false do
-            field :href, :string
+            field(:href, :string)
           end
         end
       end

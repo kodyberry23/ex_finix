@@ -2,6 +2,7 @@ defmodule Finix.Enums do
   @moduledoc """
 
   """
+  alias Finix.Enums.PaymentInstrumentType
   import EctoEnum
 
   defenum(AddressVerification, [
@@ -109,7 +110,14 @@ defmodule Finix.Enums do
     "NOT_ACCEPTABLE",
     "CONFLICT",
     "UNPROCESSABLE_ENTITY",
-    "INTERNAL_SERVER_ERROR"
+    "INTERNAL_SERVER_ERROR",
+    "UNKNOWN"
+  ])
+
+  defenum(Gateway, [
+    "TRIPOS_MOBILE_V1",
+    "TRIPOS_CLOUD_V1",
+    "DATACAP_V1"
   ])
 
   defenum(IdentityRole, [
@@ -124,9 +132,54 @@ defmodule Finix.Enums do
 
   defenum(IssuerCountry, ["USA", "NON_USA", "UNKNOWN"])
 
+  defenum(OnboardingState, [
+    "PROVISIONING",
+    "APPROVED",
+    "REJECTED"
+  ])
+
   defenum(PayloadType, ["SOURCE", "DESTINATION"])
 
-  defenum(PaymentInstrumentType, ["TOKEN", "PAYMENT_CARD", "BANK_ACCOUNT"])
+  defenum(PaymentInstrumentType, ["TOKEN", "PAYMENT_CARD", "BANK_ACCOUNT", "MERCHANT", "PAYMENT_INSTRUMENT"])
+
+  defenum(PaymentProcessor, ["DUMMY_V1", "FINIX_V1", "MASTERCARD_V1", "VISA_V1"])
+
+  defenum(ReadyToSettleUpon, [
+    "RECONCILIATION",
+    "SUCCESSFUL_CAPTURE",
+    "PROCESSOR_WINDOW"
+  ])
 
   defenum(SecurityCodeVerification, ["MATCHED", "UNKNOWN", "UNMATCHED"])
+
+  defenum(TransferState, [
+    "CANCELED",
+    "PENDING",
+    "FAILED",
+    "SUCCEEDED",
+    "UNKNOWN",
+    "RETURNED"
+  ])
+
+  defenum(TransferSubType, [
+    "API",
+    "APPLICATION_FEE",
+    "DISPUTE",
+    "MERCHANT_CREDIT",
+    "MERCHANT_CREDIT_ADJUSTMENT",
+    "MERCHANT_DEBIT",
+    "MERCHANT_DEBIT_ADJUSTMENT",
+    "PLATFORM_CREDIT",
+    "PLATFORM_CREDIT_ADJUSTMENT",
+    "PLATFORM_DEBIT",
+    "PLATFORM_DEBIT_ADJUSTMENT",
+    "PLATFORM_FEE",
+    "SETTLEMENT_MERCHANT",
+    "SETTLEMENT_NOOP",
+    "SETTLEMENT_PARTNER",
+    "SETTLEMENT_PLATFORM",
+    "SPLIT_PAYOUT",
+    "SPLIT_PAYOUT_ADJUSTMENT",
+    "SYSTEM"
+  ])
 end

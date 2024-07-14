@@ -6,141 +6,11 @@ defmodule Finix.PaymentInstruments do
   A Payment Instrument is associated with a single Identity. Once a Payment Instrument is created, the Identity it's associated with can't be changed.
   Including an address when creating a Payment Instrument can lower interchange on credit card transactions.
 
-  See Finix Payment Instruments API Documentation: https://finix.com/docs/api/tag/Payment-Instruments/
+  See Finix Payment Instruments API Documentation For More Info: https://finix.com/docs/api/tag/Payment-Instruments/
   """
   require Logger
 
   @payment_instruments_url "/payment_instruments"
-
-  defmodule PaymentInstrument do
-    defmodule BankAccount do
-      use Finix.Schema
-
-      alias Finix.Links
-
-      embedded_schema do
-        field(:id, :string)
-        field(:created_at, :utc_datetime)
-        field(:updated_at, :utc_datetime)
-        field(:application, :string)
-        field(:created_via, :string)
-        field(:currency, Finix.Enums.Currency)
-        field(:disabled_code, :string)
-        field(:disabled_message, :string)
-        field(:enabled, :boolean)
-        field(:fingerprint, :string)
-        field(:identity, :string)
-        field(:instrument_type, Finix.Enums.PaymentInstrumentType)
-        field(:account_type, Finix.Enums.BankAccountType)
-        field(:bank_account_validation_check, Finix.Enums.BankAccoiuntValidationCheck)
-        field(:bank_code, :string)
-        field(:country, Finix.Enums.Country)
-        field(:institution_number, :string)
-        field(:masked_account_number, :string)
-        field(:name, :string)
-        field(:tags, :map)
-        field(:transit_number, :string)
-        field(:third_party, :string)
-        field(:third_party_token, :string)
-        field(:type, Finix.Enums.PaymentInstrumentType)
-
-        embeds_one(:_links, Links)
-      end
-
-      def changeset(bank_account, params \\ %{}) do
-        bank_account
-        |> cast(params, __schema__(:fields) -- [:_links])
-        |> cast_embed(Links)
-      end
-    end
-
-    defmodule Card do
-      use Finix.Schema
-
-      alias Finix.Address
-      alias Finix.Links
-
-
-      embedded_schema do
-        field(:id, :string)
-        field(:created_at, :utc_datetime)
-        field(:updated_at, :utc_datetime)
-        field(:application, :string)
-        field(:created_via, :string)
-        field(:currency, Finix.Enums.Currency)
-        field(:enabled, :boolean)
-        field(:fingerprint, :string)
-        field(:identity, :string)
-        field(:instrument_type, Finix.Enums.PaymentInstrumentType)
-        field(:address_verification, Finix.Enums.AddressVerification)
-        field(:bin, :string)
-        field(:brand, Finix.Enums.CardBrand)
-        field(:card_type, Finix.Enums.CardType)
-        field(:expiration_month, :integer)
-        field(:expiration_year, :integer)
-        field(:issuer_country, Finix.Enums.IssuerCountry)
-        field(:last_four, :string)
-        field(:name, :string)
-        field(:payload_type, Finix.Enums.PayloadType)
-        field(:security_code_verification, Finix.Enums.SecurityCodeVerification)
-        field(:tags, :map)
-        field(:type, Finix.Enums.PaymentInstrumentType)
-
-        embeds_one(:_links, Links)
-        embeds_one(:address, Address)
-      end
-
-      def changeset(card, params \\ %{}) do
-        card
-        |> cast(params, __schema__(:fields) -- [:address, :_links])
-        |> cast_embed(:_links)
-        |> cast_embed(:address)
-      end
-    end
-
-    defmodule Token do
-      use Finix.Schema
-
-      alias Finix.Address
-      alias Finix.Links
-
-
-      embedded_schema do
-        field(:id, :string)
-        field(:created_at, :utc_datetime)
-        field(:updated_at, :utc_datetime)
-        field(:application, :string)
-        field(:created_via, :string)
-        field(:currency, Finix.Enums.IssuerCountry)
-        field(:enabled, :boolean)
-        field(:fingerprint, :string)
-        field(:identity, :string)
-        field(:instrument_type, Finix.Enums.PaymentInstrumentType)
-        field(:address_verification, Finix.Enums.AddressVerification)
-        field(:bin, :string)
-        field(:brand, Finix.Enums.CardBrand)
-        field(:card_type, Finix.Enums.CardType)
-        field(:expiration_month, :integer)
-        field(:expiration_year, :integer)
-        field(:issuer_country, Finix.Enums.IssuerCountry)
-        field(:last_four, :string)
-        field(:name, :string)
-        field(:security_code_verification, Finix.Enums.SecurityCodeVerification)
-        field(:type, Finix.Enums.PaymentInstrumentType)
-        field(:tags, :map)
-
-        embeds_one(:address, Address)
-        embeds_one(:_links, Links)
-      end
-
-      def changeset(token, params \\ %{}) do
-        token
-        |> cast(params, __schema__(:fields) -- [:address, :_links])
-        |> cast_embed(Links)
-        |> cast_embed(Address)
-      end
-    end
-  end
 
   @doc """
   Create a Payment Instrument resource using a card or bank account.
@@ -177,10 +47,46 @@ defmodule Finix.PaymentInstruments do
     |> Finix.handle_response(&get_embedded_schema/1)
   end
 
+  def verify(payment_instrument_id, %{processor: processor} = params, client_opts \\ %{}) do
+    body = %{params | processor: processor_mapper(processor)}
+
+    params =
+      %{
+        method: :post,
+        opts: [path_params: [payment_instrument_id: payment_instrument_id]],
+        url: @payment_instruments_url <> "/:payment_instrument_id/verifications",
+        body: body
+      }
+
+    result = IO.inspect(params |> Finix.request(client_opts))
+
+    result
+    |> Finix.handle_response(Finix.Verifications.Verification)
+  end
+
   # -------------- Private Functions --------------
-  defp get_embedded_schema(%{"type" => "BANK_ACCOUNT"}), do: PaymentInstrument.BankAccount
-  defp get_embedded_schema(%{"type" => "PAYMENT_CARD"}), do: PaymentInstrument.Card
-  defp get_embedded_schema(%{"type" => "TOKEN"}), do: PaymentInstrument.Token
+  # for sandbox env
+  defp processor_mapper(:DUMMY_V1), do: "DUMMY_V1"
+  defp processor_mapper(:FINIX_V1), do: "FINIX_V1"
+  defp processor_mapper(:MASTERCARD_V1), do: "MASTERCARD_V1"
+  defp processor_mapper(:VISA_V1), do: "VISA_V1"
+
+  defp processor_mapper(_) do
+    Logger.error(
+      "Error: Please provide a valid processor. Available processors are: DUMMY_V1, FINIX_V1, MASTERCARD_V1, VISA_V1"
+    )
+
+    {:error, :INVALID_PROCESSOR}
+  end
+
+  defp get_embedded_schema(%{"type" => "BANK_ACCOUNT"}),
+    do: Finix.PaymentInstruments.PaymentInstrument.BankAccount
+
+  defp get_embedded_schema(%{"type" => "PAYMENT_CARD"}),
+    do: Finix.PaymentInstruments.PaymentInstrument.Card
+
+  defp get_embedded_schema(%{"type" => "TOKEN"}),
+    do: Finix.PaymentInstruments.PaymentInstrument.Token
 
   defp get_embedded_schema(_params) do
     Logger.error(

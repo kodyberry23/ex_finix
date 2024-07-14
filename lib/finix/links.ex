@@ -5,7 +5,6 @@ defmodule Finix.Links do
   defmodule Link do
     use Finix.Schema
 
-
     embedded_schema do
       field(:href, :string)
     end
@@ -14,7 +13,6 @@ defmodule Finix.Links do
       cast(link, params, [:href])
     end
   end
-
 
   embedded_schema do
     embeds_one(:application, Finix.Links.Link)
