@@ -19,7 +19,6 @@ defmodule Finix.Client do
        ]},
       Tesla.Middleware.PathParams,
       {Tesla.Middleware.JSON,
-       engine: Poison,
        decode_content_types: ["application/vnd.finix.1.0.0+json", "application/hal+json"]}
     ]
 

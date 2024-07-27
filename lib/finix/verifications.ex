@@ -10,7 +10,6 @@ defmodule Finix.Verifications do
 
   See Finix Verification API Documentation for more info: https://finix.com/docs/api/tag/Payment-Instruments/
   """
-  require Logger
 
   alias Finix.Verifications.Verification
 

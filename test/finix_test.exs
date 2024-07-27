@@ -1,8 +1,8 @@
-defmodule ExFinixTest do
+defmodule FinixTest do
   use ExUnit.Case
-  doctest ExFinix
+  doctest Finix
 
   test "greets the world" do
-    assert ExFinix.hello() == :world
+    assert Finix.hello() == :world
   end
 end

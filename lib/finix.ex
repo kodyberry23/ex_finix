@@ -31,10 +31,9 @@ defmodule Finix do
 
   def handle_response({:ok, %Tesla.Env{status: status, body: body}}, _mapper)
       when status >= 400 do
-    IO.inspect(body)
-    val = Map.merge(body, %{"status" => status})
-
-    map_response(val, Errors)
+    body
+    |> Map.merge(%{"status" => status})
+    |> map_response(Errors)
   end
 
   def handle_response({:error, _reason} = error, _mapper) do

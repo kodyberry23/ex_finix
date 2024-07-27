@@ -4,7 +4,7 @@ defmodule Finix.Identities do
 
   An Identity resource represents either a person or business in Finix. You'll create an Identity to onboard your sellers, and verify the different owners.
 
-  See Finix Indentities API Documentation: https://finix.com/docs/api/tag/Identities/
+  See Finix Indentities API Documentation for more info: https://finix.com/docs/api/tag/Identities/
   """
   alias Finix.Identities.Identity
 
@@ -22,25 +22,8 @@ defmodule Finix.Identities do
     %{
       url: @indentities_url,
       method: :post,
-      body: body,
-      opts: [struct: "test"]
+      body: body
     }
-    |> Finix.request(client_opts)
-    |> Finix.handle_response(Identity)
-  end
-
-  def provision_recipient_account(identity_id, processor, client_opts \\ %{}) do
-    body = %{processor: processor}
-
-    params =
-      %{
-        method: :get,
-        opts: [path_params: [identity_id: identity_id]],
-        url: @indentities_url <> "/:identity_id/merchants",
-        body: body
-      }
-
-    params
     |> Finix.request(client_opts)
     |> Finix.handle_response(Identity)
   end

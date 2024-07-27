@@ -1,4 +1,4 @@
-defmodule ExFinix.MixProject do
+defmodule Finix.MixProject do
   use Mix.Project
 
   def project do
@@ -7,7 +7,11 @@ defmodule ExFinix.MixProject do
       version: "0.1.0",
       elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      description: description(),
+      package: package(),
+      deps: deps(),
+      name: "Finix",
+      source_url: "https://github.com/kodyberry23/ex_finix"
     ]
   end
 
@@ -24,11 +28,20 @@ defmodule ExFinix.MixProject do
       {:tesla, "~> 1.9"},
       {:hackney, "~> 1.20"},
       {:jason, "~> 1.4"},
-      {:poison, "~> 6.0"},
       {:ecto, "~> 3.10"},
       {:ecto_enum, "~> 1.4"}
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+    ]
+  end
+
+  defp description() do
+    "Finix API client library for Elixir."
+  end
+
+  defp package() do
+    [
+      maintainers: ["Kody Berry"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/kodyberry23/ex_finix"}
     ]
   end
 end

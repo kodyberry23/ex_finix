@@ -4,22 +4,26 @@ defmodule Finix.Merchants do
 
   A Merchant resource represents the entity's merchant account on a processor. You need to create and successfully validate a Merchant before processing any payments for your merchant.
 
-  See Finix Merchants API Documentation For More Info: https://finix.com/docs/api/tag/Merchants/
+  See Finix Merchants API Documentation for more info: https://finix.com/docs/api/tag/Merchants/
   """
 
   alias Finix.Merchants.Merchant
 
+  @merchants_url "/merchants"
+
   @doc """
   Create a Merchant to start the underwriting (also called provisioning) process for your seller. Merchants must be created under an Identity.
+
   A bank account must be associated with the previously created Identity before a Merchant can be successfully onboarded and verified.
   """
-  def create(identity_id, processor, client_opts \\ %{}) do
-    body = %{processor: processor}
+  def create(identity_id, body, client_opts \\ %{}) do
+    # body = %{processor: processor}
 
     params =
       %{
         method: :post,
-        url: create_merchant_url(identity_id),
+        opts: [path_params: [identity_id: identity_id]],
+        url: "/identities/:identity_id" <> @merchants_url,
         body: body
       }
 
@@ -35,15 +39,12 @@ defmodule Finix.Merchants do
     params =
       %{
         method: :get,
-        url: merchant_url(merchant_id)
+        opts: [path_params: [merchant_id: merchant_id]],
+        url: @merchants_url <> "/:merchant_id"
       }
 
     params
     |> Finix.request(client_opts)
     |> Finix.handle_response(Merchant)
   end
-
-  # -------------- Private Functions --------------
-  defp create_merchant_url(identity_id), do: "/identities/#{identity_id}/merchants"
-  defp merchant_url(merchant_id), do: "/merchants/#{merchant_id}"
 end
