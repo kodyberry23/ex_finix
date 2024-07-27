@@ -26,10 +26,10 @@ defmodule Finix.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:tesla, "~> 1.9", optional: true},
-      {:hackney, "~> 1.20", optional: true},
-      {:jason, "~> 1.4", optional: true},
-      {:ecto, "~> 3.10", optional: true},
+      {:tesla, ">= 0.0.0", optional: true},
+      {:hackney, ">= 0.0.0", optional: true},
+      {:jason, ">= 1.0.0", optional: true},
+      {:ecto, ">= 3.0.0", optional: true},
       {:ecto_enum, "~> 1.4", optional: true},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
