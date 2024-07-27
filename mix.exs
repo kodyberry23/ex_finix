@@ -9,6 +9,7 @@ defmodule Finix.MixProject do
       start_permanent: Mix.env() == :prod,
       description: description(),
       package: package(),
+      docs: docs(),
       deps: deps(),
       name: "Finix",
       source_url: "https://github.com/kodyberry23/ex_finix"
@@ -29,7 +30,8 @@ defmodule Finix.MixProject do
       {:hackney, "~> 1.20"},
       {:jason, "~> 1.4"},
       {:ecto, "~> 3.10"},
-      {:ecto_enum, "~> 1.4"}
+      {:ecto_enum, "~> 1.4"},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 
@@ -42,6 +44,15 @@ defmodule Finix.MixProject do
       maintainers: ["Kody Berry"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/kodyberry23/ex_finix"}
+    ]
+  end
+
+  defp docs do
+    [
+      main: "readme",
+      source_url: "https://github.com/kodyberry23/ex_finix",
+      source_ref: "v0.1.0",
+      extras: ["README.md", "LICENSE.md"],
     ]
   end
 end
