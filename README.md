@@ -1,4 +1,4 @@
-# ExFinix
+# Finix
 
 <!-- MDOC !-->
 

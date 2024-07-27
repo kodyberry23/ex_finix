@@ -26,11 +26,11 @@ defmodule Finix.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:tesla, "~> 1.9"},
-      {:hackney, "~> 1.20"},
-      {:jason, "~> 1.4"},
-      {:ecto, "~> 3.10"},
-      {:ecto_enum, "~> 1.4"},
+      {:tesla, "~> 1.9", optional: true},
+      {:hackney, "~> 1.20", optional: true},
+      {:jason, "~> 1.4", optional: true},
+      {:ecto, "~> 3.10", optional: true},
+      {:ecto_enum, "~> 1.4", optional: true},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
@@ -53,6 +53,22 @@ defmodule Finix.MixProject do
       source_url: "https://github.com/kodyberry23/ex_finix",
       source_ref: "v0.1.0",
       extras: ["README.md", "LICENSE.md"],
+      groups_for_modules: [
+        Authorizations: [Finix.Authorizations.Authorization],
+        Identities: [Finix.Identities.Identity],
+        Merchants: [Finix.Merchants.Merchant],
+        PaymentInstruments: [Finix.PaymentInstruments.PaymentInstrument],
+        Transfers: [Finix.Transfers.Transfer],
+        Verifications: [Finix.Verifications.Verification]
+      ],
+      nest_modules_by_prefix: [
+        Finix.Authorizations,
+        Finix.Identities,
+        Finix.Merchants,
+        Finix.PaymentInstruments,
+        Finix.Transfers,
+        Finix.Verifications
+      ]
     ]
   end
 end
