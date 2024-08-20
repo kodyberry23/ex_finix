@@ -29,8 +29,8 @@ defmodule Finix.MixProject do
       {:tesla, ">= 0.0.0", optional: true},
       {:hackney, ">= 0.0.0", optional: true},
       {:jason, ">= 1.0.0", optional: true},
-      {:ecto, ">= 3.0.0", optional: true},
-      {:ecto_enum, "~> 1.4", optional: true},
+      {:ecto, ">= 3.0.0"},
+      {:ecto_enum, "~> 1.4"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end

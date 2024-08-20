@@ -2,14 +2,18 @@ defmodule Finix.Identities.Identity do
   use Finix.Schema
 
   alias Finix.Identities.Identity.Entity
+  alias Finix.Address
   alias Finix.Links
 
-  defmodule Entity do
-    use Finix.Schema
+  embedded_schema do
+    field(:id, :string)
+    field(:created_at, :utc_datetime)
+    field(:updated_at, :utc_datetime)
+    field(:application, :string)
+    field(:tags, :map)
+    field(:identity_roles, {:array, Finix.Enums.IdentityRole}, default: [])
 
-    alias Finix.Address
-
-    embedded_schema do
+    embeds_one :entity, Entity, primary_key: false do
       field(:ach_max_transaction_amount, :integer)
       field(:amex_mid, :string)
       field(:annual_card_volume, :integer)
@@ -41,30 +45,20 @@ defmodule Finix.Identities.Identity do
       embeds_one(:personal_address, Address)
     end
 
-    def changeset(entity, params \\ %{}) do
-      entity
-      |> cast(params, __schema__(:fields) -- [:business_address, :personal_address])
-      |> cast_embed(:business_address)
-      |> cast_embed(:personal_address)
-    end
-  end
-
-  embedded_schema do
-    field(:id, :string)
-    field(:created_at, :utc_datetime)
-    field(:updated_at, :utc_datetime)
-    field(:application, :string)
-    field(:tags, :map)
-    field(:identity_roles, {:array, Finix.Enums.IdentityRole}, default: [])
-
-    embeds_one(:entity, Entity)
     embeds_one(:_links, Links)
   end
 
   def changeset(identity, params \\ %{}) do
     identity
     |> cast(params, __schema__(:fields) -- [:entity, :_links])
-    |> cast_embed(:entity)
+    |> cast_embed(:entity, with: &entity_changeset/2)
     |> cast_embed(:_links)
+  end
+
+  def entity_changeset(entity, params \\ %{}) do
+    entity
+    |> cast(params, __schema__(:fields) -- [:business_address, :personal_address])
+    |> cast_embed(:business_address)
+    |> cast_embed(:personal_address)
   end
 end

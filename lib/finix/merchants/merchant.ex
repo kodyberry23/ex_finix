@@ -5,21 +5,6 @@ defmodule Finix.Merchants.Merchant do
 
   alias Finix.Links
 
-  defmodule ProcessorDetails do
-    use Finix.Schema
-    import Ecto.Changeset
-
-    embedded_schema do
-      field(:mid, :string)
-      field(:api_key, :string)
-    end
-
-    def changeset(details, params \\ %{}) do
-      details
-      |> cast(params, __schema__(:fields))
-    end
-  end
-
   embedded_schema do
     field(:id, :string)
     field(:created_at, :utc_datetime)
@@ -50,7 +35,11 @@ defmodule Finix.Merchants.Merchant do
     field(:tags, :map)
     field(:verification, :string)
 
-    embeds_one(:processor_details, ProcessorDetails)
+    embeds_one :processor_details, ProcessorDetails, primary_key: false do
+      field(:mid, :string)
+      field(:api_key, :string)
+    end
+
     embeds_one(:_links, Links)
   end
 
@@ -59,7 +48,11 @@ defmodule Finix.Merchants.Merchant do
 
     merchant
     |> cast(params, fields)
-    |> cast_embed(:processor_details)
+    |> cast_embed(:processor_details, with: &processor_details_changeset/2)
     |> cast_embed(:_links)
+  end
+
+  def processor_details_changeset(details, params \\ %{}) do
+    cast(details, [:mid, :api_key])
   end
 end

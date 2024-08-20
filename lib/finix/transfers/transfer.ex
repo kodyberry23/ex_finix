@@ -20,20 +20,20 @@ defmodule Finix.Transfers.Transfer do
     use Finix.Schema
 
     embedded_schema do
-      field :customer_reference_number, :string
-      field :customs_duty_amount, :integer
-      field :destination_country_code, :string
-      field :destination_postal_code, :string
-      field :discount_amount, :integer
-      field :invoice_reference_number, :string
-      field :sales_tax, :integer
-      field :ship_from_postal_code, :string
-      field :shipping_amount, :integer
-      field :tax_exempt, :boolean
+      field(:customer_reference_number, :string)
+      field(:customs_duty_amount, :integer)
+      field(:destination_country_code, :string)
+      field(:destination_postal_code, :string)
+      field(:discount_amount, :integer)
+      field(:invoice_reference_number, :string)
+      field(:sales_tax, :integer)
+      field(:ship_from_postal_code, :string)
+      field(:shipping_amount, :integer)
+      field(:tax_exempt, :boolean)
 
-      embeds_one :order_date, OrderDate
+      embeds_one(:order_date, OrderDate)
 
-      embeds_many :item_data, ItemData
+      embeds_many(:item_data, ItemData)
     end
 
     def changeset(additional_purchase_data, attrs) do
@@ -46,15 +46,15 @@ defmodule Finix.Transfers.Transfer do
       use Finix.Schema
 
       embedded_schema do
-        field :amount_excluding_sales_tax, :integer
-        field :amount_including_sales_tax, :integer
-        field :commodity_code, :string
-        field :cost_per_unit, :integer
-        field :item_description, :string
-        field :item_discount_amount, :integer
-        field :merchant_product_code, :string
-        field :quantity, :integer
-        field :unit_of_measure, :string
+        field(:amount_excluding_sales_tax, :integer)
+        field(:amount_including_sales_tax, :integer)
+        field(:commodity_code, :string)
+        field(:cost_per_unit, :integer)
+        field(:item_description, :string)
+        field(:item_discount_amount, :integer)
+        field(:merchant_product_code, :string)
+        field(:quantity, :integer)
+        field(:unit_of_measure, :string)
       end
 
       def changeset(item_data, attrs) do
@@ -67,9 +67,9 @@ defmodule Finix.Transfers.Transfer do
       use Finix.Schema
 
       embedded_schema do
-        field :day, :integer
-        field :month, :integer
-        field :year, :integer
+        field(:day, :integer)
+        field(:month, :integer)
+        field(:year, :integer)
       end
 
       def changeset(order_date, attrs) do
