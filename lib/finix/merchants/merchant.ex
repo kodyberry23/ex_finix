@@ -53,6 +53,6 @@ defmodule Finix.Merchants.Merchant do
   end
 
   def processor_details_changeset(details, params \\ %{}) do
-    cast(details, [:mid, :api_key])
+    cast(details, params, [:mid, :api_key])
   end
 end

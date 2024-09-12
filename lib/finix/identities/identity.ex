@@ -1,7 +1,6 @@
 defmodule Finix.Identities.Identity do
   use Finix.Schema
 
-  alias Finix.Identities.Identity.Entity
   alias Finix.Address
   alias Finix.Links
 
@@ -57,7 +56,34 @@ defmodule Finix.Identities.Identity do
 
   def entity_changeset(entity, params \\ %{}) do
     entity
-    |> cast(params, __schema__(:fields) -- [:business_address, :personal_address])
+    |> cast(params, [
+      :ach_max_transaction_amount,
+      :amex_mid,
+      :annual_card_volume,
+      :business_name,
+      :business_phone,
+      :business_tax_id_provided,
+      :business_type,
+      :default_statement_descriptor,
+      :discover_mid,
+      :dob,
+      :doing_business_as,
+      :email,
+      :first_name,
+      :has_accepted_credit_cards_previously,
+      :incorporation_date,
+      :last_name,
+      :max_transaction_amount,
+      :mcc,
+      :ownership_type,
+      :phone,
+      :principal_percentage_ownership,
+      :short_business_name,
+      :tax_authority,
+      :tax_id_provided,
+      :title,
+      :url
+    ])
     |> cast_embed(:business_address)
     |> cast_embed(:personal_address)
   end
