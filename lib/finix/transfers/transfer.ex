@@ -87,7 +87,7 @@ defmodule Finix.Transfers.Transfer do
 
   def additonal_purchase_data_changeset(additional_purchase_data, attrs) do
     additional_purchase_data
-    |> cast(attrs,[
+    |> cast(attrs, [
       :customer_reference_number,
       :customs_duty_amount,
       :destination_country_code,
@@ -99,24 +99,26 @@ defmodule Finix.Transfers.Transfer do
       :shipping_amount,
       :tax_exempt
     ])
-    |> cast_embed(:item_data, &item_data_changeset/2)
+    |> cast_embed(:item_data, with: &item_data_changeset/2)
     |> cast_embed(:order_date, with: &order_date_changeset/2)
   end
 
   def item_data_changeset(item_data, params) do
-    cast(item_data,
-    params,
+    cast(
+      item_data,
+      params,
       [
-      :amount_excluding_sales_tax,
-      :amount_including_sales_tax,
-      :commodity_code,
-      :cost_per_unit,
-      :item_description,
-      :item_discount_amount,
-      :merchant_product_code,
-      :quantity,
-      :unit_of_measure
-    ])
+        :amount_excluding_sales_tax,
+        :amount_including_sales_tax,
+        :commodity_code,
+        :cost_per_unit,
+        :item_description,
+        :item_discount_amount,
+        :merchant_product_code,
+        :quantity,
+        :unit_of_measure
+      ]
+    )
   end
 
   def order_date_changeset(order_date, attrs) do
