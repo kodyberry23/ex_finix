@@ -63,7 +63,4 @@ defmodule Finix.PaymentInstruments do
 
   defp get_embedded_schema(%{"type" => "PAYMENT_CARD"}),
     do: Finix.PaymentInstruments.PaymentInstrument.Card
-
-  defp get_embedded_schema(%{"type" => "TOKEN"}),
-    do: Finix.PaymentInstruments.PaymentInstrument.Token
 end

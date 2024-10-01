@@ -51,7 +51,9 @@ defmodule Finix do
     changeset = apply(module, :changeset, [struct(module), body])
 
     if changeset.valid? do
-      apply_changes(changeset)
+      result = apply_changes(changeset)
+
+      {:ok, result}
     else
       {:error, changeset}
     end

@@ -82,46 +82,4 @@ defmodule Finix.PaymentInstruments.PaymentInstrument do
       |> cast_embed(:address)
     end
   end
-
-  defmodule Token do
-    use Finix.Schema
-
-    alias Finix.Address
-    alias Finix.Links
-
-    embedded_schema do
-      field(:id, :string)
-      field(:created_at, :utc_datetime)
-      field(:updated_at, :utc_datetime)
-      field(:application, :string)
-      field(:created_via, :string)
-      field(:currency, Finix.Enums.IssuerCountry)
-      field(:enabled, :boolean)
-      field(:fingerprint, :string)
-      field(:identity, :string)
-      field(:instrument_type, Finix.Enums.PaymentInstrumentType)
-      field(:address_verification, Finix.Enums.AddressVerification)
-      field(:bin, :string)
-      field(:brand, Finix.Enums.CardBrand)
-      field(:card_type, Finix.Enums.CardType)
-      field(:expiration_month, :integer)
-      field(:expiration_year, :integer)
-      field(:issuer_country, Finix.Enums.IssuerCountry)
-      field(:last_four, :string)
-      field(:name, :string)
-      field(:security_code_verification, Finix.Enums.SecurityCodeVerification)
-      field(:type, Finix.Enums.PaymentInstrumentType)
-      field(:tags, :map)
-
-      embeds_one(:address, Address)
-      embeds_one(:_links, Links)
-    end
-
-    def changeset(token, params \\ %{}) do
-      token
-      |> cast(params, __schema__(:fields) -- [:address, :_links])
-      |> cast_embed(Links)
-      |> cast_embed(Address)
-    end
-  end
 end
