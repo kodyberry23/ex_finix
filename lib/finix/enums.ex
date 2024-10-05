@@ -15,7 +15,7 @@ defmodule Finix.Enums do
     "UNKNOWN"
   ])
 
-  defenum(BankAccountType, ["CHECKING", "SAVINGS"])
+  defenum(BankAccountType, ["CHECKING", "SAVINGS", "PERSONAL_CHECKING", "PERSONAL_SAVINGS", "BUSINESS_CHECKING", "BUSINESS_SAVINGS"])
 
   defenum(BankAccoiuntValidationCheck, ["INCONCLUSIVE", "INVALID", "NOT_ATTEMPTED", "VALID"])
 
