@@ -40,14 +40,13 @@ defmodule Finix do
     error
   end
 
-  # -------------- Private Functions --------------
-  defp map_response(body, fun) when is_function(fun) do
+  def map_response(body, fun) when is_function(fun) do
     module = fun.(body)
 
     map_response(body, module)
   end
 
-  defp map_response(body, module) when is_atom(module) do
+  def map_response(body, module) when is_atom(module) do
     changeset = apply(module, :changeset, [struct(module), body])
 
     if changeset.valid? do
