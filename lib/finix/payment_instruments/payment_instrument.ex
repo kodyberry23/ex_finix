@@ -36,7 +36,7 @@ defmodule Finix.PaymentInstruments.PaymentInstrument do
     def changeset(bank_account, params \\ %{}) do
       bank_account
       |> cast(params, __schema__(:fields) -- [:_links])
-      |> cast_embed(Links)
+      |> cast_embed(:_links)
     end
   end
 

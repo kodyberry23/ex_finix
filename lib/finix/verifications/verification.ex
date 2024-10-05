@@ -25,8 +25,8 @@ defmodule Finix.Verifications.Verification do
 
     embeds_one :payment_instrument_verification_details, PaymentInstrumentVerificationDetails,
       primary_key: false do
-      field(:push_to_card_domestic, :string)
-      field(:push_to_card_cross_border, :string)
+      field(:push_to_card_domestic, Finix.Enums.PushToCardSupportCode)
+      field(:push_to_card_cross_border, Finix.Enums.PushToCardSupportCode)
       field(:card_type, Finix.Enums.CardType)
       field(:billing_currency, Finix.Enums.Currency)
       field(:issuer_country, Finix.Enums.IssuerCountry)

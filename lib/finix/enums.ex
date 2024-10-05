@@ -182,4 +182,11 @@ defmodule Finix.Enums do
     "SPLIT_PAYOUT_ADJUSTMENT",
     "SYSTEM"
   ])
+
+  defenum(PushToCardSupportCode, [
+    "FAST_FUNDS",
+    "NON_FAST_FUNDS",
+    "NOT_SUPPORTED",
+    "UNKNOWN"
+  ])
 end
