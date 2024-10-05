@@ -18,6 +18,7 @@ defmodule Finix.Transfers.Transfer do
     field(:fee, :integer)
     field(:idempotency_id, :string)
     field(:merchant, :string)
+    field(:type, Finix.Enums.TransferType)
     field(:merchant_identity, :string)
     field(:messages, {:array, :string})
     field(:raw, Finix.Utils.RawType)

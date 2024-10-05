@@ -189,4 +189,6 @@ defmodule Finix.Enums do
     "NOT_SUPPORTED",
     "UNKNOWN"
   ])
+
+  defenum(TransferType, ["DEBIT", "CREDIT", "REVERSAL", "FEE", "ADJUSTMENT", "DISPUTE", "RESERVE", "SETTLEMENT", "UNKNOWN"])
 end
