@@ -111,7 +111,8 @@ defmodule Finix.Enums do
     "CONFLICT",
     "UNPROCESSABLE_ENTITY",
     "INTERNAL_SERVER_ERROR",
-    "UNKNOWN"
+    "UNKNOWN",
+    "SERVER_ERROR"
   ])
 
   defenum(Gateway, [
