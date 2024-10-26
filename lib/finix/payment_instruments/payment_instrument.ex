@@ -70,6 +70,9 @@ defmodule Finix.PaymentInstruments.PaymentInstrument do
       field(:security_code_verification, Finix.Enums.SecurityCodeVerification)
       field(:tags, :map)
       field(:type, Finix.Enums.PaymentInstrumentType)
+      field(:online_gambing_block_indicator, :string)
+      field(:fast_funds_indicator, :string)
+      field(:push_funds_block_indicator, :string)
 
       embeds_one(:_links, Links)
       embeds_one(:address, Address)
