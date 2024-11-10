@@ -51,6 +51,7 @@ defmodule Finix.Merchants.Merchant do
 
     merchant
     |> cast(params, fields)
+    |> cast_embed(:payment_instruments)
     |> cast_embed(:processor_details, with: &processor_details_changeset/2)
     |> cast_embed(:_links)
   end
