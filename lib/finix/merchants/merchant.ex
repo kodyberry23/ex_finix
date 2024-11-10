@@ -47,7 +47,7 @@ defmodule Finix.Merchants.Merchant do
   end
 
   def changeset(merchant, params \\ %{}) do
-    fields = __schema__(:fields) -- [:processor_details, :_links]
+    fields = __schema__(:fields) -- [:processor_details, :_links, :payment_instruments]
 
     merchant
     |> cast(params, fields)
