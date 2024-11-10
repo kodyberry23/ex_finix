@@ -4,6 +4,7 @@ defmodule Finix.Merchants.Merchant do
   import Ecto.Changeset
 
   alias Finix.Links
+  alias Finix.PaymentInstruments.PaymentInstrument
 
   embedded_schema do
     field(:id, :string)
@@ -15,7 +16,7 @@ defmodule Finix.Merchants.Merchant do
     field(:convenience_charges_enabled, :boolean)
     field(:creating_transfer_from_report_enabled, :boolean)
     field(:default_partial_authorization_enabled, :boolean)
-    field(:fee_ready_to_settle_upon, :string)
+    field(:fee_ready_to_settle_upon, Finix.Enums.FeeReadyToSettleUpon)
     field(:gateway, Finix.Enums.Gateway)
     field(:gross_settlement_enabled, :boolean)
     field(:identity, :string)
@@ -34,6 +35,8 @@ defmodule Finix.Merchants.Merchant do
     field(:surcharges_enabled, :boolean)
     field(:tags, :map)
     field(:verification, :string)
+
+    embeds_many(:payment_instruments, PaymentInstrument)
 
     embeds_one :processor_details, ProcessorDetails, primary_key: false do
       field(:mid, :string)

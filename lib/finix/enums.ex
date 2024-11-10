@@ -115,6 +115,13 @@ defmodule Finix.Enums do
     "SERVER_ERROR"
   ])
 
+  defenum(FeeReadyToSettleUpon, [
+    "RECONCILIATION",
+    "SUCCESSFUL_CAPTURE",
+    "PROCESSOR_WINDOW",
+    "CONFIGURABLE_WINDOW"
+  ])
+
   defenum(Gateway, [
     "TRIPOS_MOBILE_V1",
     "TRIPOS_CLOUD_V1",
